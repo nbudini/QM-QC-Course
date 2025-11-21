@@ -1,0 +1,23 @@
+f[x_, y_, z_] := 2 x + Exp[y] - Sin[z];
+
+SliceDensityPlot3D[
+ f[x, y, z], "ZStackedPlanes", {x, -1, 1}, {y, -1, 1}, {z, -1, 1},
+   RegionFunction -> Function[{x, y, z}, x < 0 || y > 0], 
+ ImageSize -> Large, AxesLabel -> {"x", "y", "z"}, 
+ PlotLabel -> "Slices of f(x,y,z) = 2x + Exp[y] - Sin[z]", 
+ ColorFunction -> "GreenPinkTones"]
+
+Table[SliceDensityPlot3D[f[x, y, z], 
+  sl, {x, -1, 1}, {y, -1, 1}, {z, -1, 1}, PlotLabel -> sl, 
+  ImageSize -> Large, AxesLabel -> {"x", "y", "z"}, 
+  ColorFunction -> "GreenPinkTones"], {sl, {"XStackedPlanes", 
+   "YStackedPlanes", "ZStackedPlanes"}}]
+
+Table[SliceVectorPlot3D[{2, Exp[y], -Cos[z]}, 
+  sl, {x, -1, 1}, {y, -1, 1}, {z, -1, 1}, PlotLabel -> sl, 
+  ImageSize -> Large, AxesLabel -> {"x", "y", "z"}, 
+  VectorColorFunction -> "GreenPinkTones", VectorScaling -> Automatic,
+   VectorSizes -> {0.5, 1}, 
+  VectorPoints -> Automatic], {sl, {"XStackedPlanes", 
+   "YStackedPlanes", "ZStackedPlanes"}}]
+
