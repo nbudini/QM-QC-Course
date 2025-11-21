@@ -8,7 +8,10 @@ c = 2.997924562e10; # Light speed in cm/s
 kB = 1.380649e-16;   # Boltzmann constant erg/K
 
 # Frequency range
-nu = np.linspace(1e10, 1e15, 1000)
+nu = np.linspace(1e10, 1e15, 2000)
+
+# Wavelength range
+lda = np.linspace(2e-5, 3.5e-4, 2000)
 
 # Temperatures
 temperatures = [3000, 4000, 5000]
@@ -16,6 +19,10 @@ temperatures = [3000, 4000, 5000]
 # Planck spectral radiance as a function of frequency
 def B_nu(nu, T):
     return (2*h*nu**3)/(c**2) / (np.exp(h*nu/(kB*T)) - 1)
+
+# Planck spectral radiance as a function of wavelength
+def B_lda(lda, T):
+    return (2*h*c**2)/(lda**5) / (np.exp(h*c/(lda*kB*T)) - 1)
 
 # --- Custom tick formatter (a × 10^n) ---
 def sci_notation(x, pos):
@@ -26,7 +33,7 @@ def sci_notation(x, pos):
     exp = int(exp)
     return rf"${base} \times 10^{{{exp}}}$"
 
-# Plot
+# Plot vs Frequency
 fig, ax = plt.subplots()
 for T in temperatures:
     B = B_nu(nu, T)
@@ -43,3 +50,29 @@ ax.xaxis.set_major_formatter(FuncFormatter(sci_notation))
 
 plt.tight_layout()
 plt.show()
+
+plt.savefig("spectralradiance_Bnu.pdf", format="pdf", bbox_inches="tight")
+
+# Plot vs wavelength
+fig, ax = plt.subplots()
+for T in temperatures:
+    B = B_lda(lda, T)
+    ax.plot(lda, B, label=f"T = {T} K")
+
+ax.set_xlabel("Wavelength (cm)")
+ax.set_ylabel(r"$B_{\lambda}(T)$ (erg s⁻¹ sr⁻¹ cm⁻³)")
+ax.set_title("Blackbody Spectral Radiance vs Wavelength")
+ax.set_xlim(lda[0], lda[-1])
+ax.legend(frameon=False)
+
+ticks = np.linspace(lda[0], lda[-1], 4)
+
+plt.xticks(ticks)
+
+# Apply custom notation to x-axis
+ax.xaxis.set_major_formatter(FuncFormatter(sci_notation))
+
+plt.tight_layout()
+plt.show()
+
+plt.savefig("spectralradiance_Blda.pdf", format="pdf", bbox_inches="tight")
