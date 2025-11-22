@@ -60,7 +60,7 @@ for T in temperatures:
     ax.plot(lda, B, label=f"T = {T} K")
 
 ax.set_xlabel("Wavelength (cm)")
-ax.set_ylabel(r"$B_{\lambda}(T)$ (erg s⁻¹ sr⁻¹ cm⁻³)")
+ax.set_ylabel(r"$B_{\lambda}(T)$ (erg s⁻¹ sr⁻¹ cm⁻² cm⁻¹)")
 ax.set_title("Blackbody Spectral Radiance vs Wavelength")
 ax.set_xlim(lda[0], lda[-1])
 ax.legend(frameon=False)
